@@ -10,6 +10,7 @@ Output: index1=1, index2=2
 """
 # Time:  O(n)
 # Space: O(n)
+# HashTable
 class Solution(object):
     def twoSum(self, nums, target):
         """
