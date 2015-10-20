@@ -35,7 +35,6 @@ class Solution(object):
 
 #Only for python, because there is no overflow problem
 class Solution:
-    # @return a boolean
     def isPalindrome(self, x):
         if x < 0:
             return False
@@ -45,3 +44,7 @@ class Solution:
             reverse += copy % 10
             copy //= 10
         return x == reverse
+
+if __name__ == "__main__":
+    x = 123321
+    print(Solution().isPalindrome(x))
