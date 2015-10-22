@@ -26,7 +26,7 @@ class Solution(object):
                 while i >= j:
                     if nums[i] > nums[j - 1]:
                         nums[i], nums[j - 1] = nums[j - 1], nums[i]
-        #order function
+        #same of order function
                         nums[j:] = nums[:j - 1:-1]
                         return
                     else:
