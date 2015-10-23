@@ -5,28 +5,22 @@ Empty cells are indicated by the character '.'.
 You may assume that there will be only one unique solution.
 """
 class Solution(object):
-    board = None
     def solveSudoku(self, board):
         """
         :type board: List[List[str]]
         :rtype: void Do not return anything, modify board in-place instead.
         """
-        self.board = board
-        self.solveSudokuHelper(self.board)
-        board = self.board
+        self.solveSudokuHelper(board)
         
     def solveSudokuHelper(self, board):
         for i in range(9):
             for j in range(9):
-                if self.board[i][j] == ".":
-                    k = 1
-                    while k < 10:
-                        self.board[i][j] = str(k)
-                        if self.isValid(self.board, i, j) and self.solveSudokuHelper(self.board):
+                if board[i][j] == ".":
+                    for k in range(1, 10):
+                        board[i][j] = str(k)
+                        if self.isValid(board, i, j) and self.solveSudokuHelper(board):
                             return True
-                        else:
-                            k += 1
-                    self.board[i][j] = "."
+                    board[i][j] = "."
                     return False
         return True
     
