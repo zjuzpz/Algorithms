@@ -26,7 +26,6 @@ class Solution(object):
             if i == prev:
                 res += 1
                 prev = cur
-        return res
 
 if __name__ == "__main__":
     nums = [1,2,3]
