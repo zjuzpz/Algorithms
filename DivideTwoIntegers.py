@@ -12,21 +12,18 @@ class Solution(object):
         :type divisor: int
         :rtype: int
         """
-        res = 0
-        if dividend >= 0 and divisor > 0 or (dividend <= 0 and divisor < 0):
-            flag = 1
-        else:
-            flag = -1
-        dividend, divisor = abs(dividend), abs(divisor)
-        while dividend >= divisor:
-            tem, count = divisor, 1
-            while dividend >= tem:
-                tem <<= 1
+        dvd, dvs, res = abs(dividend), abs(divisor), 0
+        while dvd >= dvs:
+            tem, count = dvs, 1
+            while dvd >= tem:
                 count <<= 1
-            dividend -= tem >> 1
-            res += count >> 1
-        if flag == -1:
-            res == -res
+                tem <<= 1
+            tem >>= 1
+            count >>= 1
+            res += count
+            dvd -= tem
+        if dividend > 0 and divisor < 0 or (dividend < 0 and divisor > 0):
+            res = -res
         if res < -2 ** 31:
             return -2 ** 31
         if res > 2 ** 31 - 1:
