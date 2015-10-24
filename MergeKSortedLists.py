@@ -4,7 +4,7 @@ Merge k sorted linked lists and return it as one sorted list.
 Analyze and describe its complexity.
 """
 # O(nlogk)
-# O(O(k))
+# O(k)
 # Merge sort, heap
 class ListNode(object):
     def __init__(self, x):
