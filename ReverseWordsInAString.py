@@ -7,7 +7,7 @@ Given s = "the sky is blue",
 return "blue is sky the".
 """
 # O(n)
-# O(1)
+# O(n)
 class Solution(object):
     def reverseWords(self, s):
         """
@@ -19,10 +19,10 @@ class Solution(object):
             if s[i] != " " and left is None:
                 left = i
             elif s[i] == " " and left is not None:
-                words.append(s[left : i] + " ")
+                words.append(s[left : i])
                 left = None
         if left is not None:
-            words.append(s[left:] + " ")
+            words.append(s[left:])
         if not words:
             return ""
         words[0] = words[0].strip()
@@ -30,7 +30,7 @@ class Solution(object):
         while i < j:
             words[i], words[j] = words[j], words[i]
             i, j = i + 1, j - 1
-        return "".join(words)
+        return " ".join(words)
 
 class Solution2(object):
     def reverseWords(self, s):
