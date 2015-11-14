@@ -39,3 +39,29 @@ class Solution2(object):
         if nums[j] == j:
             return j + 1
         return j
+
+class Solution3(object):
+    def missingNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        res = 0
+        for i in range(len(nums)):
+            res ^= nums[i]
+            res ^= i + 1
+        return res
+
+import functools
+import operator
+class Solution4(object):
+    def missingNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return functools.reduce(operator.xor, nums, \
+                      functools.reduce(operator.xor, range(len(nums) + 1)))
+
+if __name__ == "__main__":
+    print(Solution3().missingNumber([1]))
