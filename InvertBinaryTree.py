@@ -1,7 +1,6 @@
 """
 226. Invert Binary Tree
 Invert a binary tree.
-
      4
    /   \
   2     7
@@ -33,6 +32,24 @@ class Solution(object):
         root.left, root.right = root.right, root.left
         self.invertTree(root.left)
         self.invertTree(root.right)
+        return root
+
+class Solution2(object):
+    def invertTree(self, root):
+        """
+        :type root: TreeNode
+        :rtype: TreeNode
+        """
+        if not root:
+            return 
+        nodes = [root]
+        while nodes:
+            node = nodes.pop()
+            node.left, node.right = node.right, node.left
+            if node.left:
+                nodes.append(node.left)
+            if node.right:
+                nodes.append(node.right)
         return root
 
 if __name__ == "__main__":
