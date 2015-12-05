@@ -34,6 +34,21 @@ class Solution(object):
         if lookup[32] == 1:
             return -res
         return res
+        
+class Solution2(object):
+    def singleNumber(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        one, two, three = 0, 0, 0
+        for num in nums:
+            two |= one & num
+            one ^= num
+            three = two & one
+            one &= ~three
+            two &= ~three
+        return one
 
 if __name__ == "__main__":
     print(Solution().singleNumber([-1, 3, 4, 3, -1, -2, 4, 3, 4, -1]))
