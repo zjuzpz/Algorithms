@@ -17,7 +17,7 @@ class Solution(object):
         :type height: List[int]
         :rtype: int
         """
-        height.insert(0, float("-inf"))
+        height = [float("-inf")] + height
         res, stack, area = 0, [0], 0
         for i in range(1, len(height)):
             while height[i] < height[stack[-1]]:
