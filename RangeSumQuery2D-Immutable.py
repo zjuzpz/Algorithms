@@ -22,6 +22,8 @@ You may assume that the matrix does not change.
 There are many calls to sumRegion function.
 You may assume that row1 ≤ row2 and col1 ≤ col2.
 """
+# O(m * n), O(1)
+# O(m * n)
 class NumMatrix(object):
     def __init__(self, matrix):
         """
