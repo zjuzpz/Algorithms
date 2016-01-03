@@ -42,7 +42,9 @@ class Solution(object):
                 lower = mid + 1
         return lower if nums[lower] >= num else lower + 1
 
-# BIT solution.
+# BIT
+# O(nlogn)
+# O(n)
 class BIT(object):
     def __init__(self, n):
         self.__bit = [0 for i in range(n)]
@@ -59,9 +61,6 @@ class BIT(object):
             i -= (i & -i)
         return res
 
-# BIT
-# O(nlogn)
-# O(n)
 class Solution2(object):
     def countSmaller(self, nums):
         """
