@@ -85,6 +85,68 @@ class Solution2(object):
                 lower = mid + 1
         return lower if nums[lower] == num else lower + 1
 
+# BST
+# O(nlogn)
+# O(n)
+class TreeNode(object):
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+        #Count the numbers of left children
+        self.count = 0
+        
+class BST(object):
+    def __init__(self):
+        self.root = None
+        
+    def insert(self, val):
+        node = TreeNode(val)
+        if not self.root:
+            self.root = node
+            return
+        cur = self.root
+        while cur:
+            if val < cur.val:
+                cur.count += 1
+                if not cur.left:
+                    cur.left = node
+                    break
+                else:
+                    cur = cur.left
+            else:
+                if not cur.right:
+                    cur.right = node
+                    break
+                else:
+                    cur = cur.right
+                    
+    def query(self, val):
+        count = 0
+        cur = self.root
+        while cur:
+            if val < cur.val:
+                cur = cur.left
+            elif val > cur.val:
+                count += 1 + cur.count
+                cur = cur.right
+            else:
+                return count + cur.count
+        return 0
+        
+class Solution3(object):
+    def countSmaller(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        res = [0 for i in range(len(nums))]
+        bst = BST()
+        for i in reversed(range(len(nums))):
+            bst.insert(nums[i])
+            res[i] = bst.query(nums[i])
+        return res
+
 if __name__ == "__main__":
     nums = [5, 2, 6, 1]
-    print(Solution2().countSmaller(nums))
+    print(Solution3().countSmaller(nums))
