@@ -22,19 +22,19 @@ class Solution(object):
         :type str: str
         :rtype: bool
         """
-        l = str.split()
-        if len(l) != len(pattern):
+        map_ps, map_sp, count = {}, {}, 0
+        word = str.split(" ")
+        if len(word) != len(pattern):
             return False
-        lookup1, lookup2 = {}, {}
         for i in range(len(pattern)):
-            if pattern[i] not in lookup1:
-                lookup1[pattern[i]] = l[i]
-            elif lookup1[pattern[i]] != l[i]:
+            p, s = pattern[i], word[i]
+            if p in map_ps and map_ps[p] != s:
                 return False
-            if l[i] not in lookup2:
-                lookup2[l[i]] = pattern[i]
-            elif lookup2[l[i]] != pattern[i]:
-                return False
+            if p not in map_ps:
+                if s not in map_sp:
+                    map_ps[p], map_sp[s] = s, p
+                else:
+                    return False
         return True
 
 # O(n)
