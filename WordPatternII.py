@@ -11,6 +11,7 @@ pattern = "aabb", str = "xyzabcxzyabc" should return false.
 Notes:
 You may assume both pattern and str contains only lowercase letters.
 """
+# The question is like NQueen, which can be solved by backtracking with lower time consumption!
 # O(n!)
 # O(n)
 class Solution(object):
