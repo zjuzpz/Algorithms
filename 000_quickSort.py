@@ -1,5 +1,5 @@
 # O(nlogn)
-# O(nlogn)
+# O(n)
 def quickSort(nums, start, end):
     if start >= end:
         return nums
