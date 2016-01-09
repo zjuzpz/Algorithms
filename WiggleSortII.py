@@ -14,7 +14,7 @@ Can you do it in O(n) time and/or in-place with O(1) extra space?
 """
 # The problem can also be solved by quick select and vitual index solution, the averaged time complexity is O(n)
 # O(nlogn)
-# O(nlogn)
+# O(n)
 class Solution(object):
     def wiggleSort(self, nums):
         """
