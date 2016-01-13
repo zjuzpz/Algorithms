@@ -12,19 +12,20 @@ class Solution(object):
         :type s: str
         :rtype: int
         """
-        res, cur, lookup = 0, 0, {}
-        for i in range(len(s)):
-            if s[i] not in lookup:
-                cur += 1
-                lookup[s[i]] = i
+        i, j, res = 0, 0, 0
+        lookup = set()
+        while j < len(s):
+            if s[j] not in lookup:
+                lookup.add(s[j])
             else:
-                res = max(res, cur)
-                if i - lookup[s[i]] > cur:
-                    cur += 1
-                else:
-                    cur = i - lookup[s[i]]
-                lookup[s[i]] = i
-        return max(res, cur)
+                res = max(res, j - i)
+                while s[i] != s[j]:
+                    lookup.remove(s[i])
+                    i += 1
+                i += 1
+            j += 1
+        res = max(res, j - i)
+        return res
 
 class Solution2:
     def lengthOfLongestSubstring(self, s):
