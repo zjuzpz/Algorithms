@@ -21,29 +21,28 @@ class Solution(object):
         :type lists: List[ListNode]
         :rtype: ListNode
         """
-        while len(lists) > 1:
-            i, j = 0, len(lists) - 1
-            nextLists = []
-            while i < j:
-                new = self.mergeTwoLists(lists[i], lists[j])
-                i, j = i + 1, j - 1
-                nextLists.append(new)
-                if i == j:
-                    nextLists.append(lists[i])
-            lists = nextLists
         if not lists:
-            return None
+            return 
+        while len(lists) > 1:
+            i, j, next = 0, len(lists) - 1, []
+            while i <= j:
+                if i == j:
+                    next.append(lists[i])
+                else:
+                    next.append(self.mergeTwoList(lists[i], lists[j]))
+                i, j = i + 1, j - 1
+            lists = next
         return lists[0]
         
-    def mergeTwoLists(self, l1, l2):
+    def mergeTwoList(self, l1, l2):
         dummy = ListNode(-1)
         cur = dummy
         while l1 and l2:
-            if l1.val <= l2.val:
-                cur.next = ListNode(l1.val)
+            if l1.val < l2.val:
+                cur.next = l1
                 l1 = l1.next
             else:
-                cur.next = ListNode(l2.val)
+                cur.next = l2
                 l2 = l2.next
             cur = cur.next
         if l1:
@@ -52,23 +51,26 @@ class Solution(object):
             cur.next = l2
         return dummy.next
 
-import heapq
-class Solution2:
-    # @param a list of ListNode
-    # @return a ListNode
+from heapq import heappush
+from heapq import heappop
+class Solution(object):
     def mergeKLists(self, lists):
-        dummy = ListNode(-1)
-        cur = dummy
-        heap = []
+        """
+        :type lists: List[ListNode]
+        :rtype: ListNode
+        """
+        h = []
         for l in lists:
             if l:
-                heapq.heappush(heap, (l.val, l))
-        while heap:
-            tem = heapq.heappop(heap)
+                heappush(h, (l.val, l))
+        dummy = ListNode(-1)
+        cur = dummy
+        while h:
+            tem = heappop(h)
             cur.next = tem[1]
             cur = cur.next
             if tem[1].next:
-                heapq.heappush(heap, (tem[1].next.val, tem[1].next))
+                heappush(h, (tem[1].next.val, tem[1].next))
         return dummy.next
 
 if __name__ == "__main__":
@@ -77,4 +79,4 @@ if __name__ == "__main__":
     l2 = ListNode(-3)
     l2.next = ListNode(5)
     l3 = None
-    print(Solution2().mergeKLists([l1,l2,l3]))
+    print(Solution().mergeKLists([l1,l2,l3]))
