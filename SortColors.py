@@ -13,47 +13,18 @@ class Solution(object):
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        one, two = None, None
-        for i in range(len(nums)):
-            if nums[i] == 2 and two is None:
-                two = i
-            elif nums[i] == 1:
-                if two is None and one is None:
-                    one = i
-                elif two is not None:
-                    if one is None:
-                        one = two
-                    nums[two], nums[i] = nums[i], nums[two]
-                    two += 1
-            elif nums[i] == 0:
-                if one is not None and two is not None:
-                    nums[two], nums[i] = nums[i], nums[two]
-                    nums[two], nums[one] = nums[one], nums[two]
-                    one, two = one + 1, two + 1
-                elif one is not None:
-                    nums[one], nums[i] = nums[i], nums[one]
-                    one += 1
-                elif two is not None:
-                    nums[two], nums[i] = nums[i], nums[two]
-                    two += 1
-
-class Solution2(object):
-    def sortColors(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: void Do not return anything, modify nums in-place instead.
-        """
-        last_zero, first_two, i = -1, len(nums), 0
-        while i < first_two:
-            if nums[i] == 0:
-                last_zero += 1
-                nums[last_zero], nums[i] = nums[i], nums[last_zero]
+        i, j, cur = 0, len(nums) - 1, 0
+        while cur <= j:
+            if nums[cur] == 0:
+                nums[cur], nums[i] = nums[i], nums[cur]
                 i += 1
-            elif nums[i] == 2:
-                first_two -= 1
-                nums[first_two], nums[i] = nums[i], nums[first_two]
+            elif nums[cur] == 1:
+                cur += 1
             else:
-                i += 1
+                nums[cur], nums[j] = nums[j], nums[cur]
+                j -= 1
+            if cur < i:
+                cur += 1
 
 if __name__ == "__main__":
     nums = [2,2,1,0,1,2,0]
