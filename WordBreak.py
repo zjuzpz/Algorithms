@@ -17,17 +17,17 @@ class Solution(object):
         :type wordDict: Set[str]
         :rtype: bool
         """
-        res = [False for i in range(len(s))]
+        if not s:
+            return True
+        res = [False for i in s]
         for i in range(len(s)):
             if s[0 : i + 1] in wordDict:
                 res[i] = True
             else:
-                j = 0
-                while j < i:
+                for j in range(0, i):
                     if res[j] and s[j + 1: i + 1] in wordDict:
                         res[i] = True
                         break
-                    j += 1
         return res[-1]
 
 if __name__ == "__main__":
