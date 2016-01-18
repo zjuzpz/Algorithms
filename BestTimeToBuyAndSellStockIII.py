@@ -30,5 +30,24 @@ class Solution(object):
         total = [left[i] + right[i] for i in range(len(left))]
         return max(total)
 
+class Solution2(object):
+    def maxProfit(self, prices):
+        """
+        :type prices: List[int]
+        :rtype: int
+        """
+        if not prices:
+            return 0
+        return self.buyKTimes(prices, 2)
+        
+    def buyKTimes(self, prices, k):
+        buy, sell = [-float("inf") for i in prices], [0 for i in prices]
+        buy[0] = -prices[0]
+        for t in range(k):
+            for i in range(1, len(prices)):
+                buy[i] = max(buy[i], sell[i] - prices[i], buy[i - 1])
+                sell[i] = max(sell[i], buy[i] + prices[i], sell[i - 1])
+        return sell[-1]
+
 if __name__ == "__main__":
     print(Solution().maxProfit([1, 2]))
