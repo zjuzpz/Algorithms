@@ -19,19 +19,15 @@ class Solution(object):
         :type cost: List[int]
         :rtype: int
         """
-        total, index, tem = 0, None, 0
-        for i in range(len(gas)):
-            diff = gas[i] - cost[i]
-            total += diff
-            if tem == 0 and diff >= 0:
-                index = i
-            tem += diff
-            if tem < 0:
-                tem = 0
-                index = None
-        if index is not None and total >= 0:
-            return index
-        return -1
+        res, cur, total = 0, gas[0] - cost[0], gas[0] - cost[0]
+        for i in range(1, len(gas)):
+            if cur < 0:
+                cur = gas[i] - cost[i]
+                res = i
+            else:
+                cur += gas[i] - cost[i]
+            total += gas[i] - cost[i]
+        return res if total >= 0 else -1
 
 if __name__ == "__main__":
     print(Solution().canCompleteCircuit([1,2], [2,1]))
