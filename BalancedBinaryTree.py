@@ -19,20 +19,18 @@ class Solution(object):
         :type root: TreeNode
         :rtype: bool
         """
-        if not root:
-            return True
-        left, right = self.findDepth(root.left, 1), self.findDepth(root.right, 1)
-        if left is not False and right is not False and -1 <= left - right <= 1:
-            return True
-        return False
+        return False if self.recur(root, 0) is False else True
         
-    def findDepth(self, root, depth):
-        if not root:
+    def recur(self, node, depth):
+        if not node:
             return depth
-        left, right = self.findDepth(root.left, depth + 1), self.findDepth(root.right, depth + 1)
-        if left is not False and right is not False and -1 <= left - right <= 1:
-            return max(left, right)
-        return False
+        left = self.recur(node.left, depth + 1)
+        right = self.recur(node.right, depth + 1)
+        if left is False or right is False:
+            return False
+        if abs(left - right) > 1:
+            return False
+        return max(left, right)
 
 if __name__ == "__main__":
     root = TreeNode(1)
