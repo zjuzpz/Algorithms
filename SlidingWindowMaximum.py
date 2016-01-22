@@ -28,7 +28,7 @@ The queue size need not be the same as the window’s size.
 Remove redundant elements and the queue should store only elements that need to be considered.
 """
 # O(n)
-# O(1)
+# O(k)
 from collections import deque
 class Solution(object):
     def maxSlidingWindow(self, nums, k):
