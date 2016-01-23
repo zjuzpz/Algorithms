@@ -10,42 +10,31 @@ Here are some examples. Inputs are in the left-hand column and its corresponding
 """
 # O(n)
 # O(1)
-
 class Solution(object):
     def nextPermutation(self, nums):
         """
         :type nums: List[int]
         :rtype: void Do not return anything, modify nums in-place instead.
         """
-        if len(nums) <= 1:
-            return 
-        j = len(nums) - 1
-        while j > 0:
-            if nums[j] > nums[j - 1]:
-                i = len(nums) - 1
-                while i >= j:
-                    if nums[i] > nums[j - 1]:
-                        nums[i], nums[j - 1] = nums[j - 1], nums[i]
-        #same of order function
-                        nums[j:] = nums[:j - 1:-1]
-                        return
-                    else:
-                        i -= 1
+        index = None
+        for i in range(len(nums) - 1):
+            if nums[i] < nums[i + 1]:
+                index = i
+        if index is None:
+            self.swap(nums, 0, len(nums) - 1)
+            return
+        for i in range(index + 1, len(nums)):
+            if nums[i] > nums[index]:
+                a = i
             else:
-                j -= 1
-        nums.reverse()
-        return
+                break
+        nums[index], nums[a] = nums[a], nums[index]
+        self.swap(nums, index + 1, len(nums) - 1)
         
-    def order(self, nums, j):
-        if (len(nums) - j) % 2 == 1:
-            times = (len(nums) - j) // 2 + 1
-        else:
-            times = (len(nums) - j) // 2
-        i = 1
-        while times > 0:
-            nums[j + i - 1], nums[-i] = nums[-i], nums[j + i - 1]
-            i, times = i + 1, times - 1
-        return
+    def swap(self, nums, i, j):
+        while i < j:
+            nums[i], nums[j] = nums[j], nums[i]
+            i, j = i + 1, j - 1
 
 if __name__ == "__main__":
     nums = [1,2,3]
