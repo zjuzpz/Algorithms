@@ -26,7 +26,27 @@ class Solution(object):
             if i == prev:
                 res += 1
                 prev = cur
+        return res
 
+class Solution2(object):
+    def jump(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if len(nums) <= 1:
+            return 0
+        jump, last, cur = 0, 0, nums[0]
+        while last < len(nums) - 1:
+            jump += 1
+            next_turn = 0
+            max_reach = min(len(nums) - 1, cur)
+            for i in range(last + 1, max_reach + 1):
+                next_turn = max(next_turn, i + nums[i])
+            last = max_reach
+            cur = next_turn
+        return jump
+    
 if __name__ == "__main__":
     nums = [1,2,3]
     print(Solution2().jump(nums))
