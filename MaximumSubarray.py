@@ -20,6 +20,33 @@ class Solution(object):
             global_max = max(global_max, local_max)
         return global_max
 
+# O(nlogn)
+# O(logn)
+class Solution2(object):
+    def maxSubArray(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        return self.divide(0, len(nums) - 1, nums)
+        
+    def divide(self, start, end, nums):
+        if start == end:
+            return nums[start]
+        mid = (start + end) // 2
+        left = self.divide(start, mid, nums)
+        right = self.divide(mid + 1, end, nums)
+        maxLeftContSum = nums[mid]
+        localMaxSum = nums[mid]
+        for i in reversed(range(0, mid)):
+            localMaxSum += nums[i]
+            maxLeftContSum = max(maxLeftContSum, localMaxSum)
+        maxRightContSum = nums[mid + 1]
+        localMaxSum = nums[mid + 1]
+        for i in range(mid + 2, end + 1):
+            localMaxSum += nums[i]
+            maxRightContSum = max(maxRightContSum, localMaxSum)
+        return max(left, right, maxLeftContSum + maxRightContSum)
 if __name__ == "__main__":
     nums = [-2,1,-3,4-1,2,1,-5,4]
     print(Solution().maxSubArray(nums))
