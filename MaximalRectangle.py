@@ -13,35 +13,29 @@ class Solution(object):
         """
         if not matrix:
             return 0
-        m, n = len(matrix), len(matrix[0])
-        height = [0 for j in range(n)]
-        for j in range(n):
-            if matrix[0][j] == "1":
-                height[j] = 1
-        res = self.helper(height)
-        for i in range(1, m):
-            for j in range(n):
+        stack, res = [0 for i in range(len(matrix[0]))], 0
+        for i in range(len(matrix)):
+            for j in range(len(matrix[0])):
                 if matrix[i][j] == "1":
-                    height[j] += 1
+                    stack[j] += 1
                 else:
-                    height[j] = 0
-            res = max(res, self.helper(height))
+                    stack[j] = 0
+            res = max(res, self.helper(stack))
         return res
-    
-    def helper(self, height):
-        height = [-float("inf")] + height
-        res, stack = 0, [0]
-        for i in range(1, len(height)):
-            while height[i] < height[stack[-1]]:
+        
+    def helper(self, h):
+        height = h[:]
+        height.insert(0, 0)
+        res, stack = 0, []
+        for i in range(len(height)):
+            while stack and height[stack[-1]] > height[i]:
                 index = stack.pop()
-                width = i - stack[-1] - 1
-                res = max(res, width * height[index])
+                res = max(res, (i - stack[-1] - 1) * height[index])
             stack.append(i)
-        right = stack[-1]
-        while stack[-1] != 0:
+        last = len(height)
+        while len(stack) > 1:
             index = stack.pop()
-            width = right - stack[-1]
-            res = max(res, width * height[index])
+            res = max(res, (last - stack[-1] - 1) * height[index])
         return res
 
 if __name__ == "__main__":
