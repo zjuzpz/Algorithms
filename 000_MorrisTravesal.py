@@ -9,7 +9,23 @@ class MorrisTravesal:
         return
     
     def inorderTraversal(self, root):
-        return
+        res, cur = [], root
+        while cur:
+            if not cur.left:
+                res.append(cur.val)
+                cur = cur.right
+            else:
+                tem = cur.left
+                while tem.right and tem.right != cur:
+                    tem = tem.right
+                if not tem.right:
+                    tem.right = cur
+                    cur = cur.left
+                else:
+                    res.append(cur.val)
+                    cur = cur.right
+                    tem.right = None
+        return res
         
     def postorderTraversal(self, root):
         dummy = TreeNode(-1)
