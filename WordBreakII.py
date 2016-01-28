@@ -12,6 +12,7 @@ A solution is ["cats and dog", "cat sand dog"].
 """
 # O(2 ^ n)
 # O(n)
+# The thing is to use n ^ 2 time to judge if it can get the s string
 class Solution(object):
     def wordBreak(self, s, wordDict):
         """
@@ -38,7 +39,44 @@ class Solution(object):
             for i in path[prev]:
                 self.traceBack(res, path, s[i : prev] + " " + cur, i, s)
 
+
+class Solution2(object):
+    def wordBreak(self, s, wordDict):
+        """
+        :type s: str
+        :type wordDict: Set[str]
+        :rtype: List[str]
+        """
+        if not s:
+            return []
+        reach = [False for i in s]
+        for i in range(len(s)):
+            if s[0 : i + 1] in wordDict:
+                reach[i] = True
+            else:
+                for j in range(i):
+                    if reach[j] and s[j + 1: i + 1] in wordDict:
+                        reach[i] = True
+        if not reach[-1]:
+            return []
+        res = []
+        path = [True for i in s]
+        self.recur(res, s, wordDict, [])
+        return res
+        
+    def recur(self, res, s, wordDict, cur):
+        if not s:
+            if cur:
+                res.append(" ".join(cur))
+                return True
+            return False
+        for i in range(len(s)):
+            if s[0 : i + 1] in wordDict:
+                cur.append(s[0 : i + 1])
+                self.recur(res, s[i + 1:], wordDict, cur)
+                cur.pop()
+                
 if __name__ == "__main__":
     s = "catsanddog"
     wordDict = set(["cat", "cats", "and", "sand", "dog"])
-    print(Solution().wordBreak(s, wordDict))
+    print(Solution2().wordBreak(s, wordDict))
