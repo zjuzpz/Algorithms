@@ -21,17 +21,20 @@ You may assume that all inputs are consist of lowercase letters a-z.
 # O(m * n)
 class Trie(object):
     def __init__(self):
-        self.leave = {}
+        self.leaf = {}
         self.isString = False
         
-    def insert(self, word):
+    def add(self, word):
+        if not word:
+            self.isString = True
+            return
         cur = self
         for c in word:
-            if c not in cur.leave:
-                cur.leave[c] = Trie()
-            cur = cur.leave[c]
+            if c not in cur.leaf:
+                cur.leaf[c] = Trie()
+            cur = cur.leaf[c]
         cur.isString = True
-
+            
 class Solution(object):
     def findWords(self, board, words):
         """
@@ -40,35 +43,35 @@ class Solution(object):
         :rtype: List[str]
         """
         if not board:
-            return
+            return []
         lookup = Trie()
         for word in words:
-            lookup.insert(word)
-        m, n = len(board), len(board[0])
-        res, visited = set(), [[False for j in range(n)] for i in range(m)]
-        for i in range(m):
-            for j in range(n):
-                self.recur(res, visited, i, j, board, lookup, [board[i][j]])
+            lookup.add(word)
+        res, visited = set(), [[False for j in range(len(board[0]))] for i in range(len(board))]
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                self.DFS(res, [], lookup, board, i, j, visited)
         return list(res)
         
-    def recur(self, res, visited, x, y, board, lookup, cur):
-        if board[x][y] not in lookup.leave:
-            return 
+    def DFS(self, res, cur, lookup, board, x, y, visited):
+        if board[x][y] not in lookup.leaf:
+            return
         if visited[x][y]:
             return
-        if lookup.leave[board[x][y]].isString:
-            res.add("".join(cur))
+        cur.append(board[x][y])
         visited[x][y] = True
-        next_node = lookup.leave[board[x][y]]
-        if x > 0:
-            self.recur(res, visited, x - 1, y, board, next_node, cur + [board[x - 1][y]])
-        if x < len(board) - 1:
-            self.recur(res, visited, x + 1, y, board, next_node, cur + [board[x + 1][y]])
-        if y > 0:
-            self.recur(res, visited, x, y - 1, board, next_node, cur + [board[x][y - 1]])
-        if y < len(board[0]) - 1:
-            self.recur(res, visited, x, y + 1, board, next_node, cur + [board[x][y + 1]])
+        if lookup.leaf[board[x][y]].isString:
+            res.add("".join(cur))
+        if 0 <= x - 1:
+            self.DFS(res, cur, lookup.leaf[board[x][y]], board, x - 1, y, visited)
+        if x + 1 < len(board):
+            self.DFS(res, cur, lookup.leaf[board[x][y]], board, x + 1, y, visited)
+        if 0 <= y - 1:
+            self.DFS(res, cur, lookup.leaf[board[x][y]], board, x, y - 1, visited)
+        if y + 1 < len(board[0]):
+            self.DFS(res, cur, lookup.leaf[board[x][y]], board, x, y + 1, visited)
         visited[x][y] = False
+        cur.pop()
 
 if __name__ == "__main__":
     words = ["oath", "pea", "eat", "rain"]
