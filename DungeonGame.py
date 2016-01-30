@@ -48,6 +48,28 @@ class Solution(object):
             row += 1
         return lower_row[-1] + 1
 
+# O(m * n)
+# O(m * n)
+class Solution2(object):
+    def calculateMinimumHP(self, dungeon):
+        """
+        :type dungeon: List[List[int]]
+        :rtype: int
+        """
+        if not dungeon:
+            return 1
+        res = dungeon[:]
+        res[-1][-1] = max(1, 1 - dungeon[-1][-1])
+        m, n = len(res), len(res[0])
+        for i in reversed(range(m - 1)):
+            res[i][-1] = max(1, res[i + 1][-1] - res[i][-1])
+        for j in reversed(range(n - 1)):
+            res[-1][j] = max(1, res[-1][j + 1] - res[-1][j])
+        for i in reversed(range(m - 1)):
+            for j in reversed(range(n - 1)):
+                res[i][j] = max(1, min(res[i + 1][j], res[i][j + 1]) - res[i][j])
+        return res[0][0]
+
 if __name__ == "__main__":
     d =[[-2, -3, 3], [-5, -10, 1], [10, 30, -5]]
-    print(Solution().calculateMinimumHP(d))
+    print(Solution2().calculateMinimumHP(d))
