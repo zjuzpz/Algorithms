@@ -23,15 +23,17 @@ class Solution(object):
         lookup = {}
         for i in range(len(inorder)):
             lookup[inorder[i]] = i
-        return self.build(lookup, preorder, 0, len(preorder) - 1)
+        root = self.build(lookup, preorder, 0, len(preorder) - 1)
+        return root
         
-    def build(self, lookup, preorder, start, end):
-        if not preorder:
+    def build(self, lookup, pre, in_start, in_end):
+        if not pre:
             return
-        node = TreeNode(preorder[0])
-        mid = lookup[preorder[0]]
-        node.left = self.build(lookup, preorder[1: 1 + mid - start], start, mid - 1)
-        node.right = self.build(lookup, preorder[1 + mid - start: end + 1], mid + 1, end)
+        node = TreeNode(pre[0])
+        mid = lookup[pre[0]]
+        length_left = mid - in_start
+        node.left = self.build(lookup, pre[1: 1 + length_left], in_start, mid - 1)
+        node.right = self.build(lookup, pre[1 + length_left: in_end + 1], mid + 1, in_end)
         return node
 
 if __name__ == "__main__":
