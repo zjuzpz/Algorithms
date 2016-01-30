@@ -20,15 +20,16 @@ class Solution(object):
         lookup = {}
         for i in range(len(inorder)):
             lookup[inorder[i]] = i
-        return self.recur(lookup, postorder, 0, len(inorder), len(inorder))
+        return self.build(lookup, postorder, 0, len(inorder) - 1)
         
-    def recur(self, lookup, postorder, in_start, in_end, end):
-        if in_start == in_end:
-            return None
-        val = postorder[end - 1]
-        node = TreeNode(val)
-        node.left = self.recur(lookup, postorder, in_start, lookup[val], end - (in_end - lookup[val] - 1) - 1)
-        node.right = self.recur(lookup, postorder, lookup[val] + 1, in_end, end - 1)
+    def build(self, lookup, post, in_start, in_end):
+        if not post:
+            return
+        node = TreeNode(post[-1])
+        mid = lookup[post[-1]]
+        length_left, length_right = mid - in_start, in_end - mid
+        node.left = self.build(lookup, post[0 : length_left], in_start, mid - 1)
+        node.right = self.build(lookup, post[-1 - length_right : -1], mid + 1, in_end)
         return node
 
 if __name__ == "__main__":
