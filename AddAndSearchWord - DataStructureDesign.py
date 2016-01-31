@@ -68,6 +68,31 @@ class WordDictionary(object):
                     return True
         return False
 
+
+"""
+    def search(self, word):
+        if not word:
+            return self.root.isString
+        lookup = [self.root]
+        for c in word:
+            if not lookup:
+                return False
+            next_turn = []
+            if c == ".":
+                for cur in lookup:
+                    for key in cur.node:
+                        next_turn.append(cur.node[key])
+            else:
+                for cur in lookup:
+                    if c in cur.node:
+                        next_turn.append(cur.node[c])
+            lookup = next_turn
+        for cur in lookup:
+            if cur.isString:
+                return True
+        return False
+"""
+        
 if __name__ == "__main__":
     d = WordDictionary()
     d.addWord("worda")
