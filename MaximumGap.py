@@ -16,33 +16,24 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        if len(nums) <= 1:
+        if len(nums) < 2:
             return 0
-        max_val, min_val = max(nums), min(nums)
-        lookup = [[None, None] for i in range(len(nums))]
-        k = (max_val - min_val) // len(nums) + 1
-        if k == 0:
-            return 0
-        for i in range(len(nums)):
-            index = (nums[i] - min_val) // k
-#cannot write as index = (nums[i] - min(nums)) // k, it will exceed time limit
-            if lookup[index][0] is None:
-                lookup[index][0] = nums[i]
-            else:
-                lookup[index][0] = min(lookup[index][0], nums[i])
-            if lookup[index][1] is None:
-                lookup[index][1] = nums[i]
-            else:
-                lookup[index][1] = max(lookup[index][1] , nums[i])
-        res, left, right = 0, None, None
-        for i in range(len(lookup)):
-            if left is None:
-                left = lookup[i][1]
-            elif lookup[i][0] is not None:
-                right = lookup[i][0]
-                res = max(res, right - left)
-                left = lookup[i][1]
-        return res
+        gap = (max(nums) - min(nums)) // (len(nums) + 1)
+        res = [[] for i in range(len(nums) + 1)]
+        minimum = min(nums)
+        for num in nums:
+            index = (num - minimum) // (gap + 1)
+            res[index].append(num)
+        maxGap, left, right = 0, None, None
+        for i in range(len(res)):
+            if res[i]:
+                if left is None:
+                    left, right = min(res[i]), max(res[i])
+                else:
+                    left = min(res[i])
+                    maxGap = max(maxGap, left - right)
+                    right = max(res[i])
+        return maxGap
 
 if __name__ == "__main__":
     print(Solution().maximumGap([1, 3, 5, 16, 18, 23]))
