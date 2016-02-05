@@ -13,28 +13,24 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        lookup = [0 for i in range(33)]
+        bits = [0 for i in range(33)]
         for num in nums:
-            if num < 0:
-                num = -num
-                lookup[32] += 1
-                if lookup[32] == 3:
-                    lookup[32] = 0
-            index = 0
-            while num > 0:
-                lookup[index] += num % 2
-                if lookup[index] == 3:
-                    lookup[index] = 0
-                num //= 2
-                index += 1
-        res, index = 0, 0
-        for i in range(32):
-            res += lookup[i] * 2 ** index
-            index += 1
-        if lookup[32] == 1:
-            return -res
-        return res
-        
+            i, n = 1, num
+            if n < 0:
+                bits[0] += 1
+                bits[0] %= 3
+                n = -n
+            while n > 0:
+                if n % 2 == 1:
+                    bits[i] += 1
+                    bits[i] %= 3
+                n //= 2
+                i += 1
+        res = 0
+        for i in range(1, 33):
+            res += 2 ** (i - 1) * bits[i]
+        return res if bits[0] == 0 else -res
+
 class Solution2(object):
     def singleNumber(self, nums):
         """
