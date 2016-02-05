@@ -19,28 +19,25 @@ class Solution(object):
         :type denominator: int
         :rtype: str
         """
-        flag = -1 if numerator * denominator < 0 else 1
+        flag = "-" if numerator * denominator < 0 else ""
         n, d = abs(numerator), abs(denominator)
-        integer, reminder, visited = n // d, n % d, {}
+        integer, reminder = n // d, n % d
         res = [str(integer)]
-        if reminder != 0:
+        if reminder:
             res.append(".")
-        index = 2
-        while reminder != 0:
+        visited, index = {}, 2
+        while reminder:
             n = reminder * 10
             integer, reminder = n // d, n % d
-            if (integer, reminder) not in visited:
-                visited[(integer, reminder)] = index
-                res.append(str(integer))
-            else:
+            if (integer, reminder) in visited:
                 pos = visited[(integer, reminder)]
                 res.insert(pos, "(")
                 res.append(")")
                 break
+            res.append(str(integer))
+            visited[(integer, reminder)] = index
             index += 1
-        if flag == -1:
-            res.insert(0, "-")
-        return "".join(res)
+        return flag + "".join(res)
 
 if __name__ == "__main__":
     print(Solution().fractionToDecimal(1, 13))
