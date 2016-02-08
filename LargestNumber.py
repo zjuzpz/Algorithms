@@ -16,8 +16,10 @@ class Solution(object):
         s = [str(num) for num in nums]
         key = cmp_to_key(lambda x, y : int(y + x) - int(x + y))
         s.sort(key = key)
+        if s and s[0] == "0":
+            return "0"
         return "".join(s)
-
+    
 if __name__ == "__main__":
     num = [3, 30, 34, 5, 9]
     print (Solution().largestNumber(num)) 
