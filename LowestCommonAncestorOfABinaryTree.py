@@ -30,17 +30,14 @@ class Solution(object):
         :type q: TreeNode
         :rtype: TreeNode
         """
-        if root is None:
-            return None
-        if root == p or root == q:
+        if not root:
+            return False
+        if root is p or root is q:
             return root
-        left = self.lowestCommonAncestor(root.left, p, q)
-        right = self.lowestCommonAncestor(root.right, p, q)
-        if left is not None and right is not None:
+        left, right = self.lowestCommonAncestor(root.left, p, q), self.lowestCommonAncestor(root.right, p, q)
+        if left and right:
             return root
-        if left is None:
-            return right
-        return left
+        return left if left else right
 
 if __name__ == "__main__":
     root = TreeNode(1)
