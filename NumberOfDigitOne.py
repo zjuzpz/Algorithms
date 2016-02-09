@@ -30,5 +30,27 @@ class Solution(object):
             index += 1
         return res
 
+class Solution2(object):
+    def countDigitOne(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        if n <= 0:
+            return 0
+        num = "0" + str(n) + "0"
+        index, res = 0, 0
+        while index < len(num) - 2:
+            left, mid, right = int(num[0 : index + 1]), int(num[index + 1]), int(num[index + 2 :]) // 10
+            if mid == 0:
+                res += left * 10 ** (len(num) - 3 - index)
+            elif mid == 1:
+                res += left * 10 ** (len(num) - 3 - index) + right + 1
+            else:
+                res += (left + 1) * 10 ** (len(num) - 3 - index)
+            index += 1
+        return res
+
 if __name__ == "__main__":
     print(Solution().countDigitOne(68048))
+    print(Solution().countDigitOne(1347))
