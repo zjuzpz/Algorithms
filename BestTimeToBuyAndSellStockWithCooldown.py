@@ -22,15 +22,12 @@ class Solution(object):
         """
         if not prices:
             return 0
-        buy, sell, cooldown = -prices[0], 0, 0
-        max_buy = -prices[0]
+        buy, maxBuy, sell, cooldown = -prices[0], -prices[0], 0, 0
         for i in range(1, len(prices)):
-            tem = cooldown
-            cooldown = sell
-            sell = max(sell, max_buy + prices[i])
-            buy = tem - prices[i]
-            max_buy = max(max_buy, buy)
+            sell, buy, cooldown = max(sell, maxBuy + prices[i]), cooldown - prices[i], sell
+            maxBuy = max(maxBuy, buy)
         return sell
+
 
 if __name__ == "__main__":
     print(Solution().maxProfit([1, 2, 3, 0, 2]))
