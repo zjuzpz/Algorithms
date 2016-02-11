@@ -21,15 +21,16 @@ findMedian() -> 2
 """
 # O(logn)
 # O(1)
-from heapq import heappush, heappop
+from heapq import heappush
+from heapq import heappop
+
 class MedianFinder:
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        self.min_heap = []
-        self.max_heap = []
-        
+        self.minHeap = []
+        self.maxHeap = []
 
     def addNum(self, num):
         """
@@ -37,25 +38,23 @@ class MedianFinder:
         :type num: int
         :rtype: void
         """
-        if not self.max_heap or num > -self.max_heap[0]:
-            heappush(self.min_heap, num)
+        if not self.maxHeap or num > -self.maxHeap[0]:
+            heappush(self.minHeap, num)
         else:
-            heappush(self.max_heap, -num)
-        if len(self.min_heap) > len(self.max_heap) + 1:
-            heappush(self.max_heap, -heappop(self.min_heap))
-        if len(self.max_heap) > len(self.min_heap):
-            heappush(self.min_heap, -heappop(self.max_heap))
-        
+            heappush(self.maxHeap, -num)
+        if len(self.minHeap) > len(self.maxHeap) + 1:
+            heappush(self.maxHeap, -heappop(self.minHeap))
+        if len(self.maxHeap) > len(self.minHeap):
+            heappush(self.minHeap, -heappop(self.maxHeap))
 
     def findMedian(self):
         """
         Returns the median of current data stream
         :rtype: float
         """
-        if len(self.min_heap) == len(self.max_heap):
-            return (self.min_heap[0] - self.max_heap[0]) / 2.0
-        return self.min_heap[0]
-
+        if len(self.minHeap) == len(self.maxHeap):
+            return (self.minHeap[0] - self.maxHeap[0]) / 2.0
+        return self.minHeap[0] * 1.0
 
 if __name__ == "__main__":
     mf = MedianFinder()
