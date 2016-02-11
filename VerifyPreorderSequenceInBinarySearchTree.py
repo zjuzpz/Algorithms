@@ -7,6 +7,8 @@ You may assume each number in the sequence is unique.
 Follow up:
 Could you do it using only constant space complexity?
 """
+# Look the nums one by one, and if we find a num is larger than another one, all
+# the following nums should all larger than the smaller one
 # O(n)
 # O(h)
 class Solution(object):
