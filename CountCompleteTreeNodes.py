@@ -22,26 +22,24 @@ class Solution(object):
         """
         if not root:
             return 0
-        h = self.cal_height(root)
-        lower, upper = 2 ** (h - 1), 2 ** h - 1
-        cur = root
+        depth, cur = self.getDepth(root), root
+        lower, upper = 2 ** (depth - 1), 2 ** depth - 1
         while lower < upper:
             mid = (lower + upper) // 2
-            if self.cal_height(cur.right) == h - 1:
+            if self.getDepth(cur.right) == depth - 1:
                 lower = mid + 1
                 cur = cur.right
             else:
                 upper = mid
                 cur = cur.left
-            h -= 1
+            depth -= 1
         return lower
         
-    def cal_height(self, root):
-        cur, h = root, 0
-        while cur:
-            h += 1
-            cur = cur.left
-        return h
+    def getDepth(self, node):
+        depth = 0
+        while node:
+            depth, node = depth + 1, node.left
+        return depth
 
 if __name__ == "__main__":
     root = TreeNode(1)
