@@ -36,6 +36,30 @@ class Solution(object):
                     coins[left] * coins[j] * coins[right])
         return res[0][n - 1]
 
+class Solution2(object):
+    def maxCoins(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        if not nums:
+            return 0
+        res = [[0 for j in range(len(nums))] for i in range(len(nums))]
+        for i in range(len(nums)):
+            for j in reversed(range(0, i + 1)):
+                if i == j:
+                    left = nums[i - 1] if i >= 1 else 1
+                    right = nums[i + 1] if i < len(nums) - 1 else 1
+                    res[i][j] = nums[i] * left * right
+                else:
+                    for k in range(j, i + 1):
+                        left = 0 if k == j else res[k - 1][j]
+                        right = 0 if k == i else res[i][k + 1]
+                        l = nums[j - 1] if j >= 1 else 1
+                        r = nums[i + 1] if i < len(nums) - 1 else 1
+                        res[i][j] = max(res[i][j], left + right + nums[k] * l * r)
+        return res[-1][0]
+
 if __name__ == "__main__":
     nums = [3, 1, 5, 8]
-    print(Solution().maxCoins(nums))
+    print(Solution2().maxCoins(nums))
