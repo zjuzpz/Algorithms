@@ -62,6 +62,44 @@ class Solution(object):
             return num1 - num2
         return num1 * num2
 
+
+class Solution2(object):
+    def diffWaysToCompute(self, input):
+        """
+        :type input: str
+        :rtype: List[int]
+        """
+        stackNum, stackOpt, tem = [], [], ""
+        for i in input:
+            if i in "+-*":
+                stackNum.append(int(tem))
+                stackOpt.append(i)
+                tem = ""
+            else:
+                tem += i
+        if tem:
+            stackNum.append(int(tem))
+        return self.recur(stackNum, stackOpt)
+        
+    def recur(self, stackNum, stackOpt):
+        if not stackOpt:
+            return stackNum
+        res = []
+        for i in range(len(stackOpt)):
+            left = self.recur(stackNum[0:i + 1], stackOpt[0 : i])
+            right = self.recur(stackNum[i + 1:], stackOpt[i + 1:])
+            for l in left:
+                for r in right:
+                    res.append(self.opt(l, stackOpt[i], r))
+        return res
+
+    def opt(self, num1, opter, num2):
+        if opter == "+":
+            return num1 + num2
+        if opter == "-":
+            return num1 - num2
+        return num1 * num2
+    
 if __name__ == "__main__":
     input = "1"
     for i in range(8):
