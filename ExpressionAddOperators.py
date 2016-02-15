@@ -43,7 +43,37 @@ class Solution(object):
                 self.recur(i + 1, res, cur + "*" + str_val, num1, num2 * val, num, target)
 
 
+class Solution2(object):
+    def addOperators(self, num, target):
+        """
+        :type num: str
+        :type target: int
+        :rtype: List[str]
+        """
+        res, value = [], 0
+        for i in range(len(num)):
+            value = value * 10 + int(num[i])
+            cur = [num[0 : i + 1]]
+            self.recur(res, 0, value, cur, num[i + 1:], target)
+            if num[0] == "0":
+                break
+        return res
+        
+    def recur(self, res, num1, num2, cur, num, target):
+        if not num:
+            if num1 + num2 == target:
+                res.append("".join(cur))
+            return
+        value = 0
+        for i in range(len(num)):
+            value = value * 10 + int(num[i])
+            self.recur(res, num1 + num2, value, cur + ["+", num[0 : i + 1]], num[i + 1:], target)
+            self.recur(res, num1 + num2, -value, cur + ["-", num[0 : i + 1]], num[i + 1:], target)
+            self.recur(res, num1, num2 * value, cur + ["*", num[0 : i + 1]], num[i + 1:], target)
+            if num[0] == "0":
+                break
+
 if __name__ == "__main__":
     num = "3456237490"
     target = 9191
-    print(Solution().addOperators(num, target))
+    print(Solution2().addOperators(num, target))
