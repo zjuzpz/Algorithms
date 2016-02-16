@@ -37,6 +37,22 @@ class Solution(object):
                     res = max(res, len(words[i]) * len(words[j]))
         return res
 
+class Solution2(object):
+    def maxProduct(self, words):
+        """
+        :type words: List[str]
+        :rtype: int
+        """
+        lookup = []
+        for i in range(len(words)):
+            lookup.append(set(words[i]))
+        res = 0
+        for i in range(len(lookup)):
+            for j in range(i + 1, len(lookup)):
+                if lookup[i].isdisjoint(lookup[j]):
+                    res = max(res, len(words[i]) * len(words[j]))
+        return res
+
 if __name__ == "__main__":
     words = ["abcw", "baz", "foo", "bar", "xtfn", "abcdef"]
     print(Solution().maxProduct(words))
