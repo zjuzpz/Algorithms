@@ -19,15 +19,34 @@ class Solution(object):
         lower, upper = 1, len(nums) - 1
         while lower < upper:
             mid = (lower + upper) // 2
-            count = len(nums) - mid - 1
-            for i in range(len(nums)):
-                if nums[i] > mid:
-                    count -= 1
-            if count >= 0:
-                upper = mid
-            else:
+            smallOrEqual = mid
+            for num in nums:
+                if num <= mid:
+                    smallOrEqual -= 1
+            if smallOrEqual >= 0:
                 lower = mid + 1
+            else:
+                upper = mid
         return lower
+
+# O(n)
+# O(1)
+class Solution2(object):
+    def findDuplicate(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        fast, slow = 0, 0
+        while fast == 0 or fast != slow:
+            fast = nums[fast]
+            fast = nums[fast]
+            slow = nums[slow]
+        fast = 0
+        while nums[fast] != nums[slow]:
+            fast = nums[fast]
+            slow = nums[slow]
+        return nums[fast]
 
 if __name__ == "__main__":
     print(Solution().findDuplicate([2, 2, 2, 2, 2]))
