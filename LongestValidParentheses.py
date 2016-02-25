@@ -30,5 +30,27 @@ class Solution(object):
                 cur = 0
         return max(res, cur)
 
+# O(n)
+# O(1)
+class Solution2(object):
+    def longestValidParentheses(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        return max(self.helper(s, "("), self.helper(s[::-1], ")"))
+        
+    def helper(self, s, c):
+        res, left, right = 0, 0, 0
+        for i in s:
+            if i == c:
+                left += 1
+            else:
+                right += 1
+                if left == right:
+                    res = max(res, 2 * left)
+                elif right > left:
+                    left = right = 0
+        return res
 if __name__ == "__main__":
-    print(Solution().longestValidParentheses("()(()()"))
+    print(Solution2().longestValidParentheses("()"))
