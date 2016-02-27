@@ -16,25 +16,21 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        lookup = set()
+        res, lookup = 0, set()
         for num in nums:
             lookup.add(num)
-        res = 0
         for num in nums:
+            cur = 1
             if num in lookup:
-                count = 1
-                left = num - 1
-                right = num + 1
                 lookup.remove(num)
+                left, right = num - 1, num + 1
                 while left in lookup:
-                    count += 1
                     lookup.remove(left)
-                    left -= 1
+                    left, cur = left - 1, cur + 1
                 while right in lookup:
-                    count += 1
                     lookup.remove(right)
-                    right += 1
-                res = max(res, count)
+                    right, cur = right + 1, cur + 1
+            res = max(res, cur)
         return res
 
 if __name__ == "__main__":
