@@ -51,10 +51,35 @@ class Solution(object):
             readBytes += bytes
         return readBytes
 
+class Solution2(object):
+    def __init__(self):
+        self.buf = ["" for i in range(4)]
+        self.start = 0
+        self.end = 0
+        
+    def read(self, buf, n):
+        """
+        :type buf: Destination buffer (List[str])
+        :type n: Maximum number of characters to read (int)
+        :rtype: The number of characters read (int)
+        """
+        i = 0
+        while i < n:
+            if self.start < self.end:
+                buf[i] = self.buf[self.start]
+                self.start, i = self.start + 1, i + 1
+            else:
+                self.end = read4(self.buf)
+                if self.end:
+                    self.start = 0
+                else:
+                    break
+        return i
+            
 
 if __name__ == "__main__":
     global file
-    sol = Solution()
+    sol = Solution2()
     buf = ['' for _ in range(100)]
     file = "1234567"
     print(buf[:sol.read(buf, 1)])
