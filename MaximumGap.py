@@ -16,24 +16,25 @@ class Solution(object):
         :type nums: List[int]
         :rtype: int
         """
-        if len(nums) < 2:
+        if len(nums) <= 1:
             return 0
-        gap = (max(nums) - min(nums)) // (len(nums) + 1)
-        res = [[] for i in range(len(nums) + 1)]
+        lookup = [[None, None] for i in nums]
+        gap = (max(nums) - min(nums)) // len(nums)
         minimum = min(nums)
         for num in nums:
             index = (num - minimum) // (gap + 1)
-            res[index].append(num)
-        maxGap, left, right = 0, None, None
-        for i in range(len(res)):
-            if res[i]:
-                if left is None:
-                    left, right = min(res[i]), max(res[i])
-                else:
-                    left = min(res[i])
-                    maxGap = max(maxGap, left - right)
-                    right = max(res[i])
-        return maxGap
+            if lookup[index] == [None, None]:
+                lookup[index] = [num, num]
+            else:
+                lookup[index][0] = min(lookup[index][0], num)
+                lookup[index][1] = max(lookup[index][1], num)
+        res, right = 0, None
+        for (l, r) in lookup:
+            if l is not None:
+                if right is not None:
+                    res = max(res, l - right)
+                right = r
+        return res
 
 if __name__ == "__main__":
     print(Solution().maximumGap([1, 3, 5, 16, 18, 23]))
