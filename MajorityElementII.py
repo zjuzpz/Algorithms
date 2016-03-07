@@ -4,6 +4,7 @@ Given an integer array of size n, find all elements that appear more than ⌊ n/
 """
 # O(n)
 # O(1)
+# Moore's Voting
 class Solution(object):
     def majorityElement(self, nums):
         """
@@ -41,5 +42,36 @@ class Solution(object):
                 res.append(key)
         return res
 
+class Solution2(object):
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        num1, num2, count1, count2 = None, None, 0, 0
+        for num in nums:
+            if num == num1:
+                count1 += 1
+            elif num == num2:
+                count2 += 1
+            elif not count1:
+                num1, count1 = num, 1
+            elif not count2:
+                num2, count2 = num, 1
+            else:
+                count1, count2 = count1 - 1, count2 - 1
+        count1, count2 = 0, 0
+        for num in nums:
+            if num == num1:
+                count1 += 1
+            elif num == num2:
+                count2 += 1
+        res = []
+        if count1 > len(nums) // 3:
+            res.append(num1)
+        if count2 > len(nums) // 3:
+            res.append(num2)
+        return res
+
 if __name__ == "__main__":
-    print(Solution().majorityElement([1, 1, 1, 2, 3, 2, 4, 6]))
+    print(Solution2().majorityElement([1, 1, 1, 2, 3, 2, 4, 6]))
