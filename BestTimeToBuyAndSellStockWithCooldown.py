@@ -22,10 +22,11 @@ class Solution(object):
         """
         if not prices:
             return 0
-        buy, maxBuy, sell, cooldown = -prices[0], -prices[0], 0, 0
+        buy, sell, cooldown = -prices[0], 0, 0
         for i in range(1, len(prices)):
-            sell, buy, cooldown = max(sell, maxBuy + prices[i]), cooldown - prices[i], sell
-            maxBuy = max(maxBuy, buy)
+            buy = max(buy, cooldown - prices[i])
+            cooldown = sell
+            sell = max(sell, buy + prices[i])
         return sell
 
 
