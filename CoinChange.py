@@ -53,24 +53,20 @@ class Solution2(object):
         :type amount: int
         :rtype: int
         """
-        if not coins or amount < 0:
-            return -1
-        if amount == 0:
+        if not amount:
             return 0
-        visited = [False for i in range(amount + 1)]
-        cur, visited[0], res = [0], True, 0
+        visited, cur, count = set(coins), set(coins), 1
         while cur:
-            next, res = [], res + 1
-            while cur:
-                num1 = cur.pop()
-                for coin in coins:
-                    new = num1 + coin
-                    if new == amount:
-                        return res
-                    if new < amount and not visited[new]:
-                        visited[new] = True
-                        next.append(new)
-            cur = next
+            next_turn = set()
+            for num in cur:
+                if num == amount:
+                    return count
+                for c in coins:
+                    candidate = num + c
+                    if candidate <= amount and candidate not in visited:
+                        visited.add(candidate)
+                        next_turn.add(candidate)
+            cur, count = next_turn, count + 1
         return -1
 
 if __name__ == "__main__":
