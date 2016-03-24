@@ -20,26 +20,20 @@ class Solution(object):
         :type numRows: int
         :rtype: str
         """
-        res, n = [], numRows
-        if not s or n <= 1 or len(s) <= n:
+        if numRows <= 1:
             return s
-        i, row = 0, 0
-        while row < n:
-            i = row
-            res.append(s[i])
-            while i < len(s):
-                if row == 0 or row == n - 1:
-                    i += (n - 1) * 2
-                    if i < len(s):
-                        res.append(s[i])
-                    continue
-                i += (n - 1) * 2 - 2 * row
-                if i < len(s):
-                    res.append(s[i])
-                i += 2 * row
-                if i < len(s):
-                    res.append(s[i])
-            row += 1
+        res = []
+        for i in range(numRows):
+            cur = i
+            while cur < len(s):
+                res.append(s[cur])
+                if i == 0 or i == numRows - 1:
+                    cur += 2 * (numRows - 1)
+                else:
+                    cur += 2 * (numRows - 1 - i)
+                    if cur < len(s):
+                        res.append(s[cur])
+                    cur += 2 * i
         return "".join(res)
 
 if __name__ == "__main__":
