@@ -18,17 +18,15 @@ class Solution(object):
         :type primes: List[int]
         :rtype: int
         """
-        res, lookup = [1], {primes[i] : 0 for i in range(len(primes))}
+        res, lookup = [1], {prime:0 for prime in primes}
         for i in range(1, n):
-            smallest, index = float("inf"), None
+            smallest = float("inf")
             for key in lookup:
-                if key * res[lookup[key]] <= res[-1]:
+                while res[lookup[key]] * key <= res[-1]:
                     lookup[key] += 1
-                if key * res[lookup[key]] < smallest:
-                    smallest = key * res[lookup[key]]
-                    index = key
+                if res[lookup[key]] * key < smallest:
+                    smallest = res[lookup[key]] * key
             res.append(smallest)
-            lookup[index] += 1
         return res[-1]
 
 if __name__ == "__main__":
