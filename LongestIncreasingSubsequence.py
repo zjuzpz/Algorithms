@@ -10,7 +10,7 @@ Your algorithm should run in O(n2) complexity.
 
 Follow up: Could you improve it to O(n log n) time complexity?
 """
-# O(n)
+# O(n ^ 2)
 # O(n)
 class Solution(object):
     def lengthOfLIS(self, nums):
@@ -29,7 +29,7 @@ class Solution(object):
             res.append(cur + 1)
         return max(res)
 
-# O(nlog)
+# O(nlogn)
 # O(n)
 class Solution2(object):
     def lengthOfLIS(self, nums):
