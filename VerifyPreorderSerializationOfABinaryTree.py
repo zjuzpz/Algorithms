@@ -38,7 +38,7 @@ class Solution(object):
         :rtype: bool
         """
         if not preorder:
-            return True
+            return False
         l = preorder.split(",")
         required = 1
         for i in range(len(l)):
