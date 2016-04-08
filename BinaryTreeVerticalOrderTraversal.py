@@ -49,26 +49,21 @@ class Solution(object):
         """
         if not root:
             return []
-        lookup = {}
-        cur = [(root, 0)]
+        cur, lookup, res = [(0, root)], {}, []
         while cur:
-            next = []
-            for node in cur:
-                if node[1] not in lookup:
-                    lookup[node[1]] = []
-                lookup[node[1]].append(node[0].val)
-                if node[0].left:
-                    next.append((node[0].left, node[1] - 1))
-                if node[0].right:
-                    next.append((node[0].right, node[1] + 1))
-            cur = next
-        visited = []
-        for key in lookup:
-            visited.append(key)
-        visited.sort()
-        res = []
-        for i in visited:
-            res.append(lookup[i])
+            nextTurn = []
+            for (position, node) in cur:
+                if position not in lookup:
+                    lookup[position] = []
+                lookup[position].append(node.val)
+                if node.left:
+                    nextTurn.append((position - 1, node.left))
+                if node.right:
+                    nextTurn.append((position + 1, node.right))
+            cur = nextTurn
+        keys = lookup.keys()
+        for key in sorted(keys):
+            res.append(lookup[key])
         return res
 
 if __name__ == "__main__":
