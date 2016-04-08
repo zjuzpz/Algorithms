@@ -20,7 +20,7 @@ If the order is invalid, return an empty string.
 There may be multiple valid order of letters, return any one of them is fine.
 """
 # O(n)
-# O(1)
+# O(n)
 from collections import deque
 class Solution(object):
     def alienOrder(self, words):
