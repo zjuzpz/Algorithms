@@ -28,56 +28,50 @@ class Solution(object):
         :type words: List[str]
         :rtype: str
         """
-        edges, allLetter = [], set()
+        lookup, allLetters = {}, set()
         for i in range(len(words) - 1):
-            self.findEdge(edges, words[i], words[i + 1])
-            for j in words[i]:
-                allLetter.add(j)
-        for j in words[-1]:
-            allLetter.add(j)
-            
-        lookup = {}
-        for edge in edges:
-            if edge[0] not in lookup:
-                lookup[edge[0]] = set([edge[1]])
-            else:
+            edge = self.findEdge(words[i], words[i + 1])
+            if edge is not None:
+                if edge[0] not in lookup:
+                    lookup[edge[0]] = set()
                 lookup[edge[0]].add(edge[1])
-        
-        res, sortedLetter = deque(), set()
-        for letter in allLetter:
+            for letter in words[i]:
+                allLetters.add(letter)
+        for letter in words[-1]:
+            allLetters.add(letter)
+        res, sortedLetters = deque(), set()
+        for letter in allLetters:
             if letter not in lookup:
+                sortedLetters.add(letter)
                 res.appendleft(letter)
-                sortedLetter.add(letter)
-    
+        visited = set()
         for key in lookup:
-            visited = set()
-            visited.add(key)
-            if not self.DFS(lookup, visited, key, res, sortedLetter):
-                return ""
-            if key not in sortedLetter:
+            if key not in sortedLetters:
+                visited.add(key)
+                if not self.DFS(res, sortedLetters, key, lookup, visited):
+                    return ""
+                visited.remove(key)
+                sortedLetters.add(key)
                 res.appendleft(key)
-                sortedLetter.add(key)
         return list(res)
         
-    def findEdge(self, edges, word1, word2):
-        for i in range(len(min(word1, word2))):
-            if word1[i] != word2[i]:
-                edges.append([word1[i], word2[i]])
-                return
-            
-    def DFS(self, lookup, visited, key, res, sortedLetter):
+    def DFS(self, res, sortedLetters, key, lookup, visited):
         for letter in lookup[key]:
-            if letter not in sortedLetter and letter in lookup:
-                if letter in visited:
+            if letter in visited:
+                return False
+            visited.add(letter)
+            if letter not in sortedLetters:
+                if not self.DFS(res, sortedLetters, letter, lookup, visited):
                     return False
-                visited.add(letter)
-                if not self.DFS(lookup, visited, letter, res, sortedLetter):
-                    return False
-                visited.remove(letter)
-                if letter not in sortedLetter:
-                    res.appendleft(letter)
-                    sortedLetter.add(letter)
+                sortedLetters.add(letter)
+                res.appendleft(letter)
+            visited.remove(letter)
         return True
+        
+    def findEdge(self, word1, word2):
+        for i in range(min(len(word1), len(word2))):
+            if word1[i] != word2[i]:
+                return (word1[i], word2[i])
                 
 
 if __name__ == "__main__":
