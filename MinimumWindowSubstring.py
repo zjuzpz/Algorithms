@@ -39,6 +39,33 @@ class Solution(object):
                     res = s[start : i + 1]
         return res
 
+class Solution2(object):
+    def minWindow(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: str
+        """
+        count = {}
+        for c in t:
+            if c not in count:
+                count[c] = 0
+            count[c] += 1
+        total, start, res = len(t), 0, ""
+        for i in range(len(s)):
+            if s[i] in count:
+                if count[s[i]] > 0:
+                    total -= 1
+                count[s[i]] -= 1
+            if not total:
+                while s[start] not in count or count[s[start]] < 0:
+                    if s[start] in count:
+                        count[s[start]] += 1
+                    start += 1
+                if res == "" or len(res) > i - start + 1:
+                    res = s[start:i + 1]
+        return res
+    
 if __name__ == '__main__':
     s = "ADOBECODEBANC"
     t = 'ABCC'
