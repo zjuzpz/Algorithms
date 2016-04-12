@@ -29,6 +29,31 @@ class Solution(object):
             res.append(smallest)
         return res[-1]
 
+from heapq import heappush
+from heapq import heappop
+# O(nlogk)
+# O(n)
+class Solution2(object):
+    def nthSuperUglyNumber(self, n, primes):
+        """
+        :type n: int
+        :type primes: List[int]
+        :rtype: int
+        """
+        res, h = [1], []
+        for prime in primes:
+            heappush(h, (prime, prime, 0))
+        for i in range(1, n):
+            while h[0][0] <= res[-1]:
+                (num, prime, index) = heappop(h)
+                index += 1
+                heappush(h, (prime * res[index], prime, index))
+            (num, prime, index) = heappop(h)
+            res.append(num)
+            index += 1
+            heappush(h, (prime * res[index], prime, index))
+        return res[-1]
+
 if __name__ == "__main__":
     primes = [2, 3, 5]
     n = 2
