@@ -19,7 +19,8 @@ The "Zigzag" order is not clearly defined and is ambiguous for k > 2 cases. If "
 It should return [1,4,8,2,5,9,3,6,7].
 """
 # O(n)
-# O(1) no extra space
+# O(k)
+from collections import deque
 class ZigzagIterator(object):
 
     def __init__(self, v1, v2):
@@ -28,28 +29,26 @@ class ZigzagIterator(object):
         :type v1: List[int]
         :type v2: List[int]
         """
-        self.v, self.cur = [], 0
-        for i in range(min(len(v1), len(v2))):
-            self.v.append(v1[i])
-            self.v.append(v2[i])
-        if len(v1) < len(v2):
-            self.v.extend(v2[len(v1) :])
-        if len(v1) > len(v2):
-            self.v.extend(v1[len(v2) :])
+        self.d = deque([(len(v), iter(v)) for v in (v1, v2) if v])
+
 
     def next(self):
         """
         :rtype: int
         """
-        tem = self.v[self.cur]
-        self.cur += 1
-        return tem
+        length, iter = self.d.popleft()
+        length -= 1
+        if length:
+            self.d.append((length, iter))
+        return next(iter)
+        
+
 
     def hasNext(self):
         """
         :rtype: bool
         """
-        return self.cur < len(self.v)
+        return True if self.d else False
 
 if __name__ == "__main__":
     v1, v2 = [1, 2], [3, 4, 5, 6]
