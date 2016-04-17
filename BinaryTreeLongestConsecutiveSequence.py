@@ -43,20 +43,16 @@ class Solution(object):
         return self.res
         
     def recur(self, root, cur):
-        if not root.left and not root.right:
-            self.res = max(self.res, cur)
-            return
+        self.res = max(self.res, cur)
         if root.right:
             if root.val == root.right.val - 1:
                 self.recur(root.right, cur + 1)
             else:
-                self.res = max(self.res, cur)
                 self.recur(root.right, 1)
         if root.left:
             if root.val == root.left.val - 1:
                 self.recur(root.left, cur + 1)
             else:
-                self.res = max(self.res, cur)
                 self.recur(root.left, 1)
 
 if __name__ == "__main__":
