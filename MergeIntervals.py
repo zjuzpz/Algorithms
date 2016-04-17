@@ -17,24 +17,28 @@ class Interval(object):
         return "[{},{}]".format(self.start,self.end)
         
         
+from copy import copy
 class Solution(object):
     def merge(self, intervals):
         """
         :type intervals: List[Interval]
         :rtype: List[Interval]
         """
+        if not intervals:
+            return []
         intervals.sort(key = lambda x: x.start)
-        i = 1
-        while i < len(intervals):
-            if intervals[i].start > intervals[i - 1].end:
-                i += 1
+        res, new = [], copy(intervals[0])
+        for i in range(1, len(intervals)):
+            if intervals[i].start > new.end:
+                res.append(new)
+                new = copy(intervals[i])
             else:
-                new = Interval(intervals[i - 1].start, max(intervals[i - 1].end, intervals[i].end))
-                intervals[i - 1] = new
-# Note here del function may be expensive, thus we can create a new list to store the result
-                del intervals[i]
-        return intervals
+                new.end = max(new.end, intervals[i].end)
+        res.append(new)
+        return res
 
 if __name__ == "__main__":
     intervals = [Interval(1,3), Interval(2,6), Interval(8,10), Interval(15,18)]
     print(Solution().merge(intervals))
+    for interval in intervals:
+        print(interval, end = ",")
