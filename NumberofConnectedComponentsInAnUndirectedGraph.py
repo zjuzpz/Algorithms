@@ -62,23 +62,21 @@ class Solution2(object):
         :type edges: List[List[int]]
         :rtype: int
         """
-        lookup, res = {i : i for i in range(n)}, n
+        res, lookup = n, {i:i for i in range(n)}
         for edge in edges:
-            if self.union(edge[0], edge[1], lookup):
+            root1, root2 = self.find(edge[0], lookup), self.find(edge[1], lookup)
+            if root1 != root2:
                 res -= 1
+                self.union(root1, root2, lookup)
         return res
         
-    def union(self, node1, node2, lookup):
-        root1, root2 = self.find(node1, lookup), self.find(node2, lookup)
-        if root1 != root2:
-            lookup[min(root1, root2)] = max(root1, root2)
-            return True
-        return False
-        
     def find(self, node, lookup):
-        if node == lookup[node]:
+        if lookup[node] == node:
             return node
         return self.find(lookup[node], lookup)
+        
+    def union(self, root1, root2, lookup):
+        lookup[min(root1, root2)] = max(root1, root2)
 
 if __name__ == "__main__":
     edges = [[0, 1], [1, 2], [3, 4]]
