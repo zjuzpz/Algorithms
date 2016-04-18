@@ -53,8 +53,29 @@ class Solution(object):
             else:
                 board[x][y] = "c2"
 
+class Solution2(object):
+    def gameOfLife(self, board):
+        """
+        :type board: List[List[int]]
+        :rtype: void Do not return anything, modify board in-place instead.
+        """
+        if not board:
+            return
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                count = 0
+                for x in range(i - 1, i + 2):
+                    for y in range(j - 1, j + 2):
+                        if 0 <= x < len(board) and 0 <= y < len(board[0]) and board[x][y] & 1 == 1:
+                            count += 1
+                if count == 3 or (count == 4 and board[i][j] == 1):
+                    board[i][j] |= 2
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                board[i][j] >>= 1
+
 if __name__ == "__main__":
     board = [[1, 0, 1, 1], [0, 1, 0, 1], [1, 1, 0, 1], [1, 1, 0, 0]]
     for i in range(5):
-        Solution().gameOfLife(board)
+        Solution2().gameOfLife(board)
         print(board)
