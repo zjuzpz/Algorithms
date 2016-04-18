@@ -27,18 +27,15 @@ class Solution(object):
         while lower < upper:
             mid = (lower + upper) // 2
             if mid == 0:
-                if nums[mid] > nums[mid + 1]:
+                if len(nums) == 1 or nums[mid] > nums[mid + 1]:
+                    return mid
+                return mid + 1
+            if nums[mid] > nums[mid - 1]:
+                if mid == len(nums) - 1 or nums[mid] > nums[mid + 1]:
                     return mid
                 lower = mid + 1
             else:
-                if nums[mid] > nums[mid - 1]:
-                    if mid == len(nums) - 1:
-                        return mid
-                    if nums[mid] > nums[mid + 1]:
-                        return mid
-                    lower = mid + 1
-                else:
-                    upper = mid - 1
+                upper = mid - 1
         return lower
 
 if __name__ == "__main__":
