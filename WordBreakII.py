@@ -60,16 +60,13 @@ class Solution2(object):
         if not reach[-1]:
             return []
         res = []
-        path = [True for i in s]
         self.recur(res, s, wordDict, [])
         return res
         
     def recur(self, res, s, wordDict, cur):
         if not s:
-            if cur:
-                res.append(" ".join(cur))
-                return True
-            return False
+            res.append(" ".join(cur))
+            return
         for i in range(len(s)):
             if s[0 : i + 1] in wordDict:
                 cur.append(s[0 : i + 1])
