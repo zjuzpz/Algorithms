@@ -9,7 +9,7 @@ Example 2:
 Given s = "leetcode", return "leotcede".
 """
 # O(n)
-# O(1)
+# O(n)
 class Solution(object):
     def reverseVowels(self, s):
         """
