@@ -44,6 +44,24 @@ class Solution(object):
                 i, j = i + 1, j + 1
         return True
 
+class Solution2(object):
+    def isOneEditDistance(self, s, t):
+        """
+        :type s: str
+        :type t: str
+        :rtype: bool
+        """
+        if len(s) > len(t):
+            return self.isOneEditDistance(t, s)
+        if len(s) < len(t) - 1 or s == t:
+            return False
+        for i in range(len(s)):
+            if s[i] != t[i]:
+                if s[i:] == t[i + 1:] or s[i + 1:] == t[i + 1:]:
+                    return True
+                return False
+        return True
+
 if __name__ == "__main__":
     s, t = "leetcode", "leet code"
     print(Solution().isOneEditDistance(s, t))
