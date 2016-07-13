@@ -12,6 +12,7 @@ class BST:
     def __init__(self):
         self.root = None
 
+#add a new node in the bst
     def add(self, val):
         if not self.root:
             self.root = TreeNode(val)
@@ -32,6 +33,7 @@ class BST:
                         return
                     cur = cur.right
 
+#search if the value in the bst, if it is, return the node, else return False
     def search(self, val):
         cur = self.root
         while cur:
@@ -43,8 +45,13 @@ class BST:
                 cur = cur.right
         return False
 
+#delete a value in the bst, if the value not in the bst, return False, otherwise
+#return True
     def delete(self, val):
         node = self.search(val)
+        if not node:
+            return False
+        #If the node just have one child or have no child
         if not node.left or not node.right:
             if node is node.parent.left:
                 node.parent.left = node.left or node.right
@@ -55,6 +62,7 @@ class BST:
                 if node.parent.right is not None:
                     node.parent.right.parent = node.parent
             del(node)
+        #The node have two children
         else:
             tem = node.right
             while tem.left:
@@ -65,24 +73,30 @@ class BST:
             else:
                 tem.parent.right = None
             del(tem)
-
+        return True
+    
+#Morris travelsal of the tree, whose space complexity is O(1)
     def traversal(self):
         if not self.root:
             return []
+        cur = self.root
         res = []
-        self.helper(self.root.left, res)
-        res.append(self.root.val)
-        self.helper(self.root.right, res)
+        while cur:
+            if not cur.left:
+                res.append(cur.val)
+                cur = cur.right
+            else:
+                tem = cur.left
+                while tem.right and tem.right != cur:
+                    tem = tem.right
+                if not tem.right:
+                    tem.right = cur
+                    cur = cur.left
+                else:
+                    res.append(cur.val)
+                    cur = cur.right
+                    tem.right = None
         return res
-
-    def helper(self, node, res):
-        if not node:
-            return
-        self.helper(node.left, res)
-        res.append(node.val)
-        self.helper(node.right, res)
-        
-
 
 
 if __name__ == "__main__":
