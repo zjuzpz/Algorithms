@@ -6,7 +6,7 @@ public class SubstringWithConcatenationOfAllWords {
         String word;
         if(words.length == 0) {return res;}
         int wordLength = words[0].length();
-        if(words.length * wordLength < s.length()) {return res;}
+        if(words.length * wordLength > s.length()) {return res;}
         for(int i = 0; i < words.length; i++) {
             if(!lookup.containsKey(words[i])) {
                 lookup.put(words[i], 0);
@@ -37,11 +37,18 @@ public class SubstringWithConcatenationOfAllWords {
             if(count == 0) {return false;}
             lookup.replace(word, count - 1);
             if(recur(lookup, s, start + wordLength, wordLength, cur + 1, total)) {
-                lookup.replace(word, count + 1);
+                lookup.replace(word, count);
                 return true;
             }
-            lookup.replace(word, count + 1);
+            lookup.replace(word, count);
         }
         return false;
     }
+    
+    public static void main(String[] args) {
+    	String s = "barfoofoobarthefoobarman";
+        String[] words = {"bar","foo","the"};
+    	System.out.println(new SubstringWithConcatenationOfAllWords().findSubstring(s, words));
+    }
+
 }
