@@ -23,7 +23,7 @@ public class ImplementQueueUsingStacks {
         if(stack2.size() == 0) {
             stack1ToStack2();
         }
-        return stack2.get(stack2.size() - 1);
+        return stack2.peek();
     }
     
     private void stack1ToStack2() {
