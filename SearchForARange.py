@@ -10,38 +10,37 @@ return [3, 4].
 """
 # O(logn)
 # O(1)
-class Solution(object):
-    def searchRange(self, nums, target):
-        """
-        :type nums: List[int]
-        :type target: int
-        :rtype: List[int]
-        """
-        lower, upper = 0, len(nums) - 1
-        while lower < upper:
-            mid = (lower + upper) // 2
-            if nums[mid] < target:
-                lower += 1
-            else:
-                upper -= 1
-        if nums[upper] == target:
-            left = upper
-        elif upper + 1 < len(nums) and nums[upper + 1] == target:
-            left = upper + 1
-        else:
+class Solution:
+    def searchRange(self, nums: List[int], target: int) -> List[int]:
+        if not nums:
             return [-1, -1]
         lower, upper = 0, len(nums) - 1
         while lower < upper:
             mid = (lower + upper) // 2
             if nums[mid] > target:
-                upper -= 1
+                upper = mid - 1
+            elif nums[mid] < target:
+                lower = mid + 1
             else:
-                lower += 1
-        if nums[lower] == target:
-            right = lower
-        elif lower - 1 >= 0 and nums[lower - 1] == target:
+                upper = mid
+        if nums[lower] != target:
+            return [-1, -1]
+        left = lower
+        lower, upper = 0, len(nums) - 1
+        while lower < upper:
+            mid = (lower + upper) // 2
+            if nums[mid] > target:
+                upper = mid - 1
+            elif nums[mid] < target:
+                lower = mid + 1
+            else:
+                lower = mid + 1
+        if lower > 0 and nums[lower] != target:
             right = lower - 1
+        else:
+            right = lower
         return [left, right]
+
 
 if __name__ == "__main__":
     print(Solution().searchRange([5,7,7,8,8,10], 8))
